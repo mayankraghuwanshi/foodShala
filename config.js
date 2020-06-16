@@ -1,5 +1,6 @@
+require('dotenv').config()
 module.exports = {
-    PORT : 3500,
-    MONGODB_URL : "mongodb://mayank:mayank123@ds125423.mlab.com:25423/foodshala",
-    PASSPORT_SECRET_KEY : "alkdsjalkdjlk"
+    PORT : process.env.PORT  || 3500,
+    MONGODB_URL : process.env.MONGODB_URL,
+    PASSPORT_SECRET_KEY : process.env.PASSPORT_SECRET_KEY
 }
