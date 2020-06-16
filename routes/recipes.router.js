@@ -20,17 +20,17 @@ router.post('/:restaurantId' , async (req , res , next)=>{
     const {restaurantId} = req.params;
     const {errors , isValid} = validateRegisterRecipeInput(req.body);
     if(!isValid){
-        return next(errors);
+        return next({errors});
     }
     const restaurant = await Restaurant.findOne({_id:restaurantId})
         .catch(err=>{
-            return next(err);
+            return next({err});
         });
 
     if(!restaurant){
         const errors = {};
         errors.msg = "Please provide valid restaurant id";
-        return next(errors);
+        return next({errors});
     }
 
 
@@ -62,12 +62,12 @@ router.post('/:restaurantId' , async (req , res , next)=>{
             restaurant.menu.push(data._id)
             restaurant.save()
                 .catch(err=>{
-                    err.msg = "Something went wrong while adding menu to restaurant";   return next(err)
+                    err.msg = "Something went wrong while adding menu to restaurant";   return next({err})
                 });
             return res.send(data);
         })
         .catch(err=>{
-            return next(err);
+            return next({err});
         })
 })
 
@@ -78,7 +78,7 @@ router.get('/:restaurantId' , (req ,res , next)=>{
             return res.send(data);
         })
         .catch(err=>{
-            return next(err);
+            return next({err});
         })
 })
 
@@ -89,14 +89,14 @@ router.delete('/:id', async (req , res , next)=> {
     if(!recipe){
         const errors = {};
         errors.msg = "Recipe with id "+id+" not found!";
-        return next(errors);
+        return next({errors});
     }
 
     const restaurant = await Restaurant.findOne({_id : recipe.restaurant}).populate('menu').catch(err=> {return next(err)});
 
     if(!restaurant){
         errors.msg = "Restaurant with id "+recipe.restaurant+" not found!";
-        return next(errors);
+        return next({errors});
     }
 
     let menu = restaurant.menu;
@@ -111,7 +111,7 @@ router.delete('/:id', async (req , res , next)=> {
             })
         })
         .catch(err=>{
-            next(err);
+            return next({err});
         })
 })
 
@@ -120,26 +120,26 @@ router.patch('/:restaurantId/:recipeId' ,async (req , res , next)=>{
     const {restaurantId , recipeId} = req.params;
     const {errors , isValid} = validateRegisterRecipeInput(req.body);
     if(!isValid){
-        return next(errors);
+        return next({errors});
     }
     const recipe = await Recipe.findOne({_id:recipeId})
         .catch(err=>{
             err.msg = "Something went wrong while fetching recipe with id "+recipeId;
-            return next(err);
+            return next({err});
         })
     if(!recipe){
         errors.recipe = "Recipe with id "+recipeId+" is not found.";
-        return next(errors);
+        return next({errors});
     }
 
     const restaurant = await Restaurant.findOne({_id:restaurantId})
         .catch(err=>{
             err.msg = "Something went wrong while fetching restaurant with id "+restaurantId
-            return next(err);
+            return next({err});
         })
     if(!restaurant){
         errors.recipe = "Restaurant with id "+restaurantId+" is not found.";
-        return next(errors);
+        return next({errors});
     }
 
     const {
@@ -167,7 +167,7 @@ router.patch('/:restaurantId/:recipeId' ,async (req , res , next)=>{
         })
         .catch(err=>{
 
-            return next(err);
+            return next({err});
         })
 
 })

@@ -19,7 +19,8 @@ module.exports = validateRegisterRestourantInput = (data)=>{
     if(validator.isEmpty(address)){
         errors.address = "Address field is required";
     }
-    if(!validator.isEmpty(contactNumber) && !validator.isLength(contactNumber,10)){
+    
+    if(!validator.isEmpty(contactNumber) && !validator.isLength(contactNumber,{min : 10 , max : 10})){
         errors.contactNumber = "Please provide valid contact number"
     }
     if(validator.isEmpty(status)){

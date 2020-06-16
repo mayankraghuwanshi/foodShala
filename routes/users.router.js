@@ -3,6 +3,13 @@ const Users = require('../models/user.entity');
 const validateUserRegisterInput = require('../validators/registerUser.validator');
 const validateUserUpdateInput = require('../validators/registerUser.validator');
 const errorCode = require('../errorCodes.constants');
+const validateLoginUserInput = require('../validators/loginUser.validator');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const {PASSPORT_SECRET_KEY} = require('../config');
+
+
 
 router.get('/' , (req , res)=>{
     Users.find()
@@ -19,8 +26,8 @@ router.get('/' , (req , res)=>{
 router.post('/' , async (req  , res , next)=>{
     const {isValid , errors} = validateUserRegisterInput(req.body);
     if(!isValid){
-        errors.statusCode = 500;
-        return next(errors);
+        errors.statusCode = 400;
+        return next({errors});
     }
     const {
         name,
@@ -33,12 +40,12 @@ router.post('/' , async (req  , res , next)=>{
 
     const user = await Users.findOne({email}).catch(err=>{
         err.statusCode = 500;
-        return next(err);
+        return next({err});
     })
     if(user){
         errors.email = "user already exists";
         errors.statusCode = 500;
-        return next(errors);
+        return next({errors});
     }
 
     const newUser = new Users({
@@ -50,16 +57,69 @@ router.post('/' , async (req  , res , next)=>{
         address
     });
 
-    newUser.save()
-        .then(data=>{
-            return res.send(data);
-        })
-        .catch(err=>{
-            err.statusCode = 500;
-            return next(err);
-        })
+
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+                .save()
+                .then(user => res.json(user))
+                .catch(err => {
+                    console.error(err);
+                    return next({err})
+                });
+        });
+    });
 })
 
+
+
+router.post('/login' , async (req , res , next)=>{
+    const {errors , isValid} = validateLoginUserInput(req.body);
+    if(!isValid){
+        return next({errors});
+    }
+
+    const {
+        email,
+        password
+    } = req.body;
+
+    Users.findOne({email})
+        .then(user=>{
+            if(!user){
+                errors.email = "User not found";
+                return next({errors});
+            }
+            bcrypt.compare(password , user.password).then(match=>{
+                if(match){
+                    const payload = {
+                        email,
+                        _id : user._id,
+                        name : user.name,
+                        role : user.role,
+                        preferredMeal : user.preferredMeal
+                    };
+                    jwt.sign(
+                        payload,
+                        PASSPORT_SECRET_KEY,
+                        (error , token)=>{
+                            return res.status(200).json({
+                                success : true,
+                                token : 'Bearer ' + token
+                            });
+                        }
+                    );
+                }
+                else {
+                    errors.password = "Password is not matched."
+                    return res.status(400).json({errors});
+                }
+            })
+        })
+})
 
 
 router.put('/:id',async (req , res , next)=>{

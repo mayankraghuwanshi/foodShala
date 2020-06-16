@@ -34,7 +34,7 @@ router.post('/' , (req , res , next)=>{
     const {errors , isValid} = validateRegisterRestourantInput(req.body);
     if(!isValid){
         errors.statusCode = errorCodes.VALIDATION_FAIL;
-        return next(errors);
+        return next({errors});
     }
     //TODO : fetch user id from session.
     const {userId} = req.body;
@@ -66,7 +66,7 @@ router.post('/' , (req , res , next)=>{
         .catch(err=>{
             err.statusCode = errorCodes.BAD_REQUEST;
             err.msg = "Something went wrong";
-            return next(err);
+            return next({err});
         })
 })
 
@@ -75,20 +75,20 @@ router.post('/' , (req , res , next)=>{
 router.patch('/:id' , async (req , res, next)=>{
     const {errors , isValid} = validateUpdateRestaurantInput(req.body);
     if(!isValid){
-        return next(errors);
+        return next({errors});
     }
     const id = req.params.id;
 
     const restaurant = await Restaurant.findOne({_id:id})
         .catch(err=>{
             err.msg = "Something went wrong while fetching restaurant";
-            return next(err);
+            return next({err});
         });
 
 
     if(!restaurant){
         errors.msg = "Restaurant doesn't exist!";
-        return next(errors);
+        return next({errors});
     }
     const {
         name,
@@ -110,7 +110,7 @@ router.patch('/:id' , async (req , res, next)=>{
         })
         .catch(err=>{
             err.msg = "Something went wrong while saving restaurant";
-            return next(err);
+            return next({err});
         })
 })
 
@@ -122,7 +122,7 @@ router.delete('/:id' , (req , res, next)=>{
         })
         .catch(err=>{
             err.msg = "Something went wrong while deleting restaurant with id "+id;
-            return next(err);
+            return next({err});
         })
 })
 
