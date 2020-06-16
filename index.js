@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const indexRoute = require('./routes/index.router');
 const cors = require('cors');
 const passport = require('passport');
-
+const path = require('path');
 
 const {MONGODB_URL} = require('./config');
 const {PORT} = require('./config');
@@ -25,12 +25,15 @@ app.use(express.urlencoded({
 }))
 
 
-app.get('/' , (req , res)=>{
-    res.send("Hello, World.");
-})
+
 app.use('/api' , indexRoute);
 
 
+app.use(express.static(path.join(__dirname, "client", "build")))
+app.get("*", (req, res) => {
+    const index = path.join(__dirname, "client","build", "index.html")
+    res.sendFile(index);
+})
 
 
 
