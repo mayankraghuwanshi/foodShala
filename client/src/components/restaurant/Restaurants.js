@@ -20,12 +20,12 @@ const Restaurants = (props) => {
     },[])
 
     return (
-        <div className="container bg-light p-5">
+        <div className="container">
             <div className="row">
                 {loading ? <div><h1>loading</h1></div>:
 
-                    restaurants.length>0?
-                        restaurants.map((restaurant , key)=>(
+
+                    restaurants.map((restaurant , key)=>(
                         <Restaurant
                         name = {restaurant.name}
                         description = {restaurant.description}
@@ -37,9 +37,7 @@ const Restaurants = (props) => {
                         deleteRestaurantAction = {deleteRestaurantAction}
                         restaurantId = {restaurant._id}
                         />
-                        )):<div>
-                            <h1 align="center">No restaurant found!</h1>
-                        </div>
+                    ))
                 }
             </div>
         </div>
