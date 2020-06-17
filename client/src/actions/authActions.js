@@ -15,7 +15,7 @@ export const clearErrorAction =()=>dispatch=>{
 export const createUserAction = (user)=>dispatch=>{
     axios.post(URL+"/api/users/" , user)
         .then(data=>{
-            window.alert("done");
+            window.location.href="/#/users/login"
         })
         .catch(err=>{
             console.log(err)
@@ -37,7 +37,7 @@ export const loginUserAction = (user)=>dispatch=>{
             const decoded = jwt_decode(token);
             //set current user
             dispatch(setCurrentUser(decoded))
-            window.alert("user has loged in successfully")
+            window.location.href = '/';
 
         })
         .catch(err=>{
@@ -50,7 +50,10 @@ export const loginUserAction = (user)=>dispatch=>{
         })
 }
 
-export const logOutuserAction=()=>dispatch=>{
+
+
+
+export const logOutUserAction=()=>dispatch=>{
     localStorage.removeItem('jwtToken')
     setAuthHeader(false)
     dispatch(setCurrentUser({}))

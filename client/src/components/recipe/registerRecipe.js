@@ -9,6 +9,7 @@ const RegisterRecipe = (props)=>{
         description : "",
         price : "",
         mealType : "veg",
+        imageUrl : "",
         errors : props.errors
     })
     const {errors} = state;
@@ -34,7 +35,7 @@ const RegisterRecipe = (props)=>{
 
     return (
         <div className="register-recipe">
-            <div className="container">
+            <div className="container bg-light p-5">
                 <div className='col-md-8 m-auto'>
                     <h1 className="display-4 text-center">Register Recipe</h1>
                     <p className="lead text-center"></p>
@@ -57,6 +58,13 @@ const RegisterRecipe = (props)=>{
                         placeholder="price"
                         value = {state.price}
                         error = {errors.price}
+                        onChange={(e)=>handleOnChange(e)}
+                    />
+                    <InputTextField
+                        name = "imageUrl"
+                        placeholder="Image URL"
+                        value = {state.imageUrl}
+                        error = {errors.imageUrl}
                         onChange={(e)=>handleOnChange(e)}
                     />
                     <div className="form-group">

@@ -5,7 +5,7 @@ import {GET_ERROR} from "../actionTypes";
 export const registerRecipeAction = (recipe , restaurantId)=>dispatch=>{
     axios.post(URL+"/api/recipes/"+restaurantId ,  recipe)
         .then(data=>{
-            console.log(data);
+            window.location.href = "/#/restaurants/get/"+restaurantId;
         })
         .catch(err=>{
             if(err.response.data.errors){

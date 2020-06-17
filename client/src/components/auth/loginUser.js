@@ -36,7 +36,7 @@ const Login = (props)=>{
 
     return (
         <div className="login">
-            <div className="box container">
+            <div className="box container bg-light p-5">
                 <div className="row">
                     <div className="col-md-6 m-auto">
                         <h1 className="display-4 text-center">Sign In</h1>

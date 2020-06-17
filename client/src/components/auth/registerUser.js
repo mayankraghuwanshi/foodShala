@@ -36,7 +36,7 @@ const RegisterUser = (props) =>{
 
     return (
         <div className="register">
-            <div className="container box">
+            <div className="container box bg-light p-5">
                 <div className="row">
                     <div className="col-md-6 m-auto">
                         <h1 className="display-4 text-center">Sign Up</h1>

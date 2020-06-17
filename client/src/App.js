@@ -11,7 +11,11 @@ import jwt_decode from 'jwt-decode';
 import RestaurantRegister from "./components/restaurant/registerRestaurant";
 import PrivateRoute from "./components/utils/privateRoute";
 import RegisterRecipe from "./components/recipe/registerRecipe";
-import RestaurantView from "./components/restaurant/viewRestaurant";
+import RestaurantView from "./components/restaurant/Restaurants";
+import RestaurantWithMenu from "./components/restaurant/Restaurant";
+import NavBar from "./components/layouts/nav";
+import RestaurantUpdate from "./components/restaurant/updataRestaurant";
+import Cart from "./components/cart/cart";
 
 
 if(localStorage.jwtToken){
@@ -28,17 +32,25 @@ function App() {
     <Provider store = {store}>
       <Router basename="">
           <div className="App">
-              <Router exact path = "/">
+              <NavBar/>
+              <Route exact path = "/">
                   <RestaurantView/>
-              </Router>
+              </Route>
+              <Route exact path="/cart">
+                  <Cart/>
+              </Route>
               <Route exact path = "/users/login">
                   <LoginUser/>
               </Route>
               <Route exact path = "/users/register">
                   <RegisterUser/>
               </Route>
+              <Route exact path ="/restaurants/get/:restaurantId">
+                  <RestaurantWithMenu/>
+              </Route>
               <PrivateRoute excat path = "/restaurants/register" component = {RestaurantRegister}  />
               <PrivateRoute excat path = "/recipes/register/:restaurantId" component = {RegisterRecipe}  />
+              <PrivateRoute excat path = "/restaurants/update/:restaurantId" component = {RestaurantUpdate}  />
           </div>
       </Router>
     </Provider>

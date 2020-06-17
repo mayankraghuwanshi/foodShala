@@ -118,7 +118,10 @@ router.delete('/:id' , (req , res, next)=>{
     const {id} = req.params;
     Restaurant.deleteOne({_id:id})
         .then(data=>{
-            return res.send(data);
+            return res.send({
+                success : true,
+                data
+            });
         })
         .catch(err=>{
             err.msg = "Something went wrong while deleting restaurant with id "+id;
