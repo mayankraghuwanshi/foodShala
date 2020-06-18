@@ -11,7 +11,7 @@ const {PASSPORT_SECRET_KEY} = require('../config');
 
 
 
-router.get('/' , (req , res)=>{
+router.get('/' , passport.authenticate('jwt' , {session : false}), (req , res)=>{
     Users.find()
         .then(data=>{
             return res.send(data);
@@ -122,7 +122,9 @@ router.post('/login' , async (req , res , next)=>{
 })
 
 
-router.put('/:id',async (req , res , next)=>{
+router.put('/:id',
+    passport.authenticate('jwt' , {session : false}),
+    async (req , res , next)=>{
     const {errors , isValid} = validateUserRegisterInput(req.body);
     const id = req.params.id;
     if(!isValid){
@@ -137,7 +139,7 @@ router.put('/:id',async (req , res , next)=>{
 
 
 
-router.delete('/:id',(req, res , next)=>{
+router.delete('/:id',passport.authenticate('jwt' , {session : false}),(req, res , next)=>{
     const id = req.params.id;
     Users.deleteOne({_id:id})
          .then(data=>{

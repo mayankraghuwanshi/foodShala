@@ -23,8 +23,6 @@ const Restaurants = (props) => {
         <div className="container">
             <div className="row">
                 {loading ? <div><h1>loading</h1></div>:
-
-
                     restaurants.map((restaurant , key)=>(
                         <Restaurant
                         name = {restaurant.name}

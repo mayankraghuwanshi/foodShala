@@ -3,6 +3,7 @@ const Restaurant = require('../models/restourant.entity');
 const errorCodes = require('../errorCodes.constants');
 const validateRegisterRestourantInput = require('../validators/registerRestaurant.validator');
 const validateUpdateRestaurantInput = require('../validators/updateRestaurant.validator');
+const passport = require('passport');
 
 router.get('/' , (req , res ,next)=>{
     Restaurant.find()
@@ -30,7 +31,7 @@ router.get('/:id' , (req , res , next)=>{
 })
 
 
-router.post('/' , (req , res , next)=>{
+router.post('/' ,passport.authenticate('jwt' , {session : false}),  (req , res , next)=>{
     const {errors , isValid} = validateRegisterRestourantInput(req.body);
     if(!isValid){
         errors.statusCode = errorCodes.VALIDATION_FAIL;
@@ -72,7 +73,7 @@ router.post('/' , (req , res , next)=>{
 
 
 
-router.patch('/:id' , async (req , res, next)=>{
+router.patch('/:id' ,passport.authenticate('jwt' , {session : false}), async (req , res, next)=>{
     const {errors , isValid} = validateUpdateRestaurantInput(req.body);
     if(!isValid){
         return next({errors});
@@ -114,7 +115,7 @@ router.patch('/:id' , async (req , res, next)=>{
         })
 })
 
-router.delete('/:id' , (req , res, next)=>{
+router.delete('/:id',passport.authenticate('jwt' , {session : false}) , (req , res, next)=>{
     const {id} = req.params;
     Restaurant.deleteOne({_id:id})
         .then(data=>{

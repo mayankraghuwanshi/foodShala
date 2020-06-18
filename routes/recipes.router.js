@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Recipe = require('../models/recipe.entity');
 const Restaurant = require('../models/restourant.entity');
 const validateRegisterRecipeInput = require('../validators/registerRecipe.validator')
-
+const passport = require('passport')
 
 
 router.get('/' , (req , res , next)=>{
@@ -16,7 +16,7 @@ router.get('/' , (req , res , next)=>{
 })
 
 
-router.post('/:restaurantId' , async (req , res , next)=>{
+router.post('/:restaurantId',passport.authenticate('jwt' , {session : false}) , async (req , res , next)=>{
     const {restaurantId} = req.params;
     const {errors , isValid} = validateRegisterRecipeInput(req.body);
     if(!isValid){
@@ -83,7 +83,7 @@ router.get('/:restaurantId' , (req ,res , next)=>{
 })
 
 
-router.delete('/:id', async (req , res , next)=> {
+router.delete('/:id', passport.authenticate('jwt' , {session : false}),async (req , res , next)=> {
     const {id} = req.params;
     const recipe = await Recipe.findOne({_id:id}).catch(err=> {return next(err)});
     if(!recipe){
@@ -116,7 +116,7 @@ router.delete('/:id', async (req , res , next)=> {
 })
 
 
-router.patch('/:restaurantId/:recipeId' ,async (req , res , next)=>{
+router.patch('/:restaurantId/:recipeId' ,passport.authenticate('jwt' , {session : false}),async (req , res , next)=>{
     const {restaurantId , recipeId} = req.params;
     const {errors , isValid} = validateRegisterRecipeInput(req.body);
     if(!isValid){

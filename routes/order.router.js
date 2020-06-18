@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const Orders = require('../models/order.entity');
+const passport = require('passport');
 
 
-router.get('/' , (req , res , next)=>{
+router.get('/' ,passport.authenticate('jwt' , {session : false}), (req , res , next)=>{
     Orders.find({})
         .then(data=>{
             return res.send(data);
@@ -12,13 +13,13 @@ router.get('/' , (req , res , next)=>{
         })
 })
 
-router.get('/:id',async (req , res , next)=>{
+router.get('/:id',passport.authenticate('jwt' , {session : false}),async (req , res , next)=>{
     const {id} = req.params;
     const order = await Order.findOne({owner : id}).catch(err=>{return next(err)});
     return res.send(order);
 })
 
-router.post('/:id' , async (req , res , next)=>{
+router.post('/:id' ,passport.authenticate('jwt' , {session : false}), async (req , res , next)=>{
     const {id} = req.params;
     const {cart , customerId} = req.body;
 
@@ -39,7 +40,7 @@ router.post('/:id' , async (req , res , next)=>{
 })
 
 
-router.get('/owner/:id' , (req , res , next)=>{
+router.get('/owner/:id' ,passport.authenticate('jwt' , {session : false}), (req , res , next)=>{
     const {id} = req.params;
     Orders.find({owner : id , isDelivered : false})
         .then(data=>{
@@ -50,7 +51,7 @@ router.get('/owner/:id' , (req , res , next)=>{
         })
 })
 
-router.get('/customer/:id',(req , res , next)=>{
+router.get('/customer/:id',passport.authenticate('jwt' , {session : false}),(req , res , next)=>{
     const {id} = req.params;
     Orders.find({customer : id})
         .then(data=>{

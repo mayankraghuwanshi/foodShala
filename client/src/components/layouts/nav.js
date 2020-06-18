@@ -25,6 +25,11 @@ const NavBar = (props) =>{
                 </Link>
             </li>
             <li className="nav-item">
+                <Link className="nav-link" to="/orders">
+                    My orders
+                </Link>
+            </li>
+            <li className="nav-item">
                 <Link className="nav-link" to="/users/login" onClick={()=>logOutUserAction()}>
                     <img className="rounded-circle" style={{width: "25px" , marginRight: "5px"}}
                          src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png  "
@@ -40,12 +45,17 @@ const NavBar = (props) =>{
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                     <Link className="nav-link" to="/">
-                        home
+                        Home
                     </Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/cart">
-                        {cart.itemSize} cart
+                        {cart.itemSize} Cart
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/orders">
+                        My orders
                     </Link>
                 </li>
                 <li className="nav-item">
