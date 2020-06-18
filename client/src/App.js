@@ -16,8 +16,8 @@ import RestaurantWithMenu from "./components/restaurant/Restaurant";
 import NavBar from "./components/layouts/nav";
 import RestaurantUpdate from "./components/restaurant/updataRestaurant";
 import Cart from "./components/cart/cart";
-import Orders from "./components/orderTable";
 import orderTable from "./components/orderTable";
+import Footer from './components/layouts/footer'
 
 
 if(localStorage.jwtToken){
@@ -52,6 +52,7 @@ function App() {
               <PrivateRoute excat path = "/restaurants/register" component = {RestaurantRegister}  />
               <PrivateRoute excat path = "/recipes/register/:restaurantId" component = {RegisterRecipe}  />
               <PrivateRoute excat path = "/restaurants/update/:restaurantId" component = {RestaurantUpdate}  />
+              <Footer/>
           </div>
       </Router>
     </Provider>

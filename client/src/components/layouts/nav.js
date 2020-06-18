@@ -11,17 +11,17 @@ const NavBar = (props) =>{
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
                 <Link className="nav-link" to="/">
-                    home
+                    Home
                 </Link>
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/restaurants/register">
-                    add restaurant
+                    Add restaurant
                 </Link>
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/cart">
-                    {cart.itemSize} cart
+                    {cart.itemSize} Cart
                 </Link>
             </li>
             <li className="nav-item">
@@ -83,7 +83,7 @@ const NavBar = (props) =>{
         <div style={{
             backgroundColor : "teal"
         }}>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-gradient mb-4">
+            <nav  className="navbar navbar-expand-sm navbar-dark bg-gradient mb-4">
                 <div className="container">
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#mobile-nav">
