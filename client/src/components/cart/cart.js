@@ -1,8 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
+import {orderAction} from "../../actions/cartAction";
 
 const Cart = (props) => {
-    const {cart} = props;
+    const {cart,orderAction,auth} = props;
     return (
         <div>
             <Recipes
@@ -10,9 +11,8 @@ const Cart = (props) => {
             />
             <h2 className="mt-5" align="center">Total Price: {cart.totalPrice}</h2>
             <div style={{width : "100px" , margin : "auto" , display : "block"}}>
-                <button  className="btn btn-primary center" disabled>Order</button>
+                <button onClick={()=>orderAction(cart,auth.user._id)}  className="btn btn-primary center" disabled={cart.itemSize===0 ? true : false}>Order</button>
             </div>
-
         </div>
     )
 }
@@ -66,7 +66,8 @@ const Recipes =(props)=>{
 
 
 const mapStateToProps = (state)=>({
-    cart : state.cart
+    cart : state.cart,
+    auth : state.auth
 })
 
-export default connect(mapStateToProps , {})(Cart)
+export default connect(mapStateToProps , {orderAction})(Cart)

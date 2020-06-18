@@ -49,14 +49,14 @@ const RestaurantWithMenu =(props)=>{
                     </div>
                 </div>
                 <h3 align="center">Menu</h3>
-                <Recipes recipes = {recipes} addToCartAction={addToCartAction} auth = {auth}/>
+                <Recipes recipes = {recipes} addToCartAction={addToCartAction} auth = {auth} restaurant={restaurant} />
             </div>}
         </div>
     )
 }
 
 const Recipe =(props)=>{
-    const {recipe , addToCartAction , auth} = props;
+    const {recipe , addToCartAction , auth , restaurant} = props;
     return (
         <div className="card card-body bg-light m-1">
             <div className="row">
@@ -70,7 +70,7 @@ const Recipe =(props)=>{
                     <a className="badge badge-success">{recipe.mealType}</a><br/>
                 </div>
                 <div className="col">
-                    {auth.isAuthenticated ? <button type="button" onClick={()=>addToCartAction(recipe)} className="btn btn-primary">Add to cart</button> : ""}
+                    {auth.isAuthenticated ?auth.user.role==="customer" ? <button type="button" onClick={()=>addToCartAction(recipe,restaurant.owner)} className="btn btn-primary">Add to cart</button>:"Pls sign in as customer" : ""}
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@ const Recipe =(props)=>{
 
 
 const Recipes =(props)=>{
-    const {recipes,addToCartAction , auth} = props;
+    const {recipes,addToCartAction , auth, restaurant} = props;
     return (
         <div className="container">
             <div className="row center">
@@ -90,6 +90,7 @@ const Recipes =(props)=>{
                                 recipe = {recipe}
                                 addToCartAction={addToCartAction}
                                 auth = {auth}
+                                restaurant={restaurant}
                             />
                         ))
                     }

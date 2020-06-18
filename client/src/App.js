@@ -16,6 +16,8 @@ import RestaurantWithMenu from "./components/restaurant/Restaurant";
 import NavBar from "./components/layouts/nav";
 import RestaurantUpdate from "./components/restaurant/updataRestaurant";
 import Cart from "./components/cart/cart";
+import Orders from "./components/orderTable";
+import orderTable from "./components/orderTable";
 
 
 if(localStorage.jwtToken){
@@ -36,9 +38,8 @@ function App() {
               <Route exact path = "/">
                   <RestaurantView/>
               </Route>
-              <Route exact path="/cart">
-                  <Cart/>
-              </Route>
+              <PrivateRoute exact path="/cart" component={Cart}  />
+              <PrivateRoute exact path="/orders" component = {orderTable}/>
               <Route exact path = "/users/login">
                   <LoginUser/>
               </Route>

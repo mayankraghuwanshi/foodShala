@@ -75,7 +75,7 @@ const Restaurant = (props)=>{
                     <a href={`/#/restaurants/get/${restaurantId}`} className="btn btn-primary m-1">View</a>
                     {isModificationAllow ? (
                         <span>
-                            <Link to={`/restaurants/update/${restaurantId}`} className="btn btn-info m-1">Edit</Link>
+                            {/*<Link to={`/restaurants/update/${restaurantId}`} className="btn btn-info m-1" >Edit</Link>*/}
                             <a onClick={()=>handleOnDelete(restaurantId)} className="btn btn-danger m-1">Delete</a>
                         </span>
                     ) : ""}
